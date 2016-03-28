@@ -1148,8 +1148,8 @@
             this.drawRectangle(new Bridge.Lib.Rectangle(0, Bridge.get(Ecs.EntitySystem.RenderSystem).HUD_Y, Bridge.get(Ecs.EntitySystem.RenderSystem).WIDTH, Bridge.get(Ecs.EntitySystem.RenderSystem).HUD_HEIGHT), Bridge.get(Bridge.Lib.Color).getGray());
     
             this.renderHealth();
-            //RenderExperience();
-            //RenderStats();
+            this.renderExperience();
+            this.renderStats();
         },
         renderExperience: function () {
             var width = 150;
@@ -1163,9 +1163,9 @@
             var xpRatio = 1.0 * experience.xp / experience.toNextLevel;
             xpBar.width = Bridge.Int.trunc((xpBar.width * xpRatio));
     
-            //DrawRectangle(xpBar, Color.Green);
+            this.drawRectangle(xpBar, Bridge.get(Bridge.Lib.Color).getGreen());
             xpBar.width = width;
-            //OutlineRectangle(xpBar, Color.Black);
+            this.outlineRectangle(xpBar, Bridge.get(Bridge.Lib.Color).getBlack());
         },
         renderStats: function () {
             //var stats = Hero.GetComponent<Stats>();

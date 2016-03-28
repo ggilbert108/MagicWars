@@ -122,8 +122,8 @@ namespace Ecs.EntitySystem
             DrawRectangle(new Rectangle(0, HUD_Y, WIDTH, HUD_HEIGHT), Color.Gray);
 
             RenderHealth();
-            //RenderExperience();
-            //RenderStats();
+            RenderExperience();
+            RenderStats();
         }
 
         private void RenderHealth()
@@ -158,9 +158,9 @@ namespace Ecs.EntitySystem
             float xpRatio = 1f*experience.Xp/experience.ToNextLevel;
             xpBar.Width = (int) (xpBar.Width*xpRatio);
 
-            //DrawRectangle(xpBar, Color.Green);
+            DrawRectangle(xpBar, Color.Green);
             xpBar.Width = width;
-            //OutlineRectangle(xpBar, Color.Black);
+            OutlineRectangle(xpBar, Color.Black);
         }
 
         private void RenderStats()
