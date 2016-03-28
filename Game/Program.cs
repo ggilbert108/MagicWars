@@ -166,8 +166,6 @@ namespace Game
 
             for (int y = yOff; y < viewport.Height; y += gridSize)
             {
-                if (!Util.ValueInRange(y + viewport.Y, Bounds.Top, Bounds.Bottom))
-                    continue;
 
                 Rectangle line = new Rectangle(0, y, viewport.Width, 3);
                 RenderSystem.DrawRectangle(line, Color.MediumBlue);

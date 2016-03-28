@@ -7,12 +7,20 @@ namespace Ecs.EntitySystem
 {
     public static class EnemyFactory
     {
-        public static EnemyTemplate GenerateEnemy(Rectangle bounds)
+        public static EnemyTemplate GenerateLoneEnemy(Rectangle bounds)
         {
-            var subclasses = typeof (EnemyTemplate).Assembly.GetTypes().Where(
-                type => type.IsSubclassOf(typeof (EnemyTemplate))).ToList();
+            var allTypes = typeof (EnemyTemplate).Assembly.GetTypes();
 
-            var byFrequency = MapByFrequency(subclasses);
+            var subclasses = 
+                from type in allTypes
+                where type.IsSubclassOf(typeof (EnemyTemplate))
+                where type != typeof(BossTemplate)
+                where !type.IsSubclassOf(typeof (BossTemplate))
+                select type;
+
+            var templateTypes = subclasses.ToList();
+
+            var byFrequency = MapByFrequency(templateTypes);
             float random = (float) Util.Rng.NextDouble();
 
             Type templateType = byFrequency[byFrequency.Keys.First()];
@@ -24,6 +32,32 @@ namespace Ecs.EntitySystem
             }
 
             EnemyTemplate template = (EnemyTemplate) Activator.CreateInstance(templateType, bounds);
+            return template;
+        }
+
+        public static BossTemplate GenerateBoss(Rectangle bounds)
+        {
+            var allTypes = typeof(EnemyTemplate).Assembly.GetTypes();
+
+            var subclasses =
+                from type in allTypes
+                where type.IsSubclassOf(typeof(BossTemplate))
+                select type;
+
+            var templateTypes = subclasses.ToList();
+
+            var byFrequency = MapByFrequency(templateTypes);
+            float random = (float)Util.Rng.NextDouble();
+
+            Type templateType = byFrequency[byFrequency.Keys.First()];
+            foreach (float frequency in byFrequency.Keys)
+            {
+                templateType = byFrequency[frequency];
+                if (random < frequency)
+                    break;
+            }
+
+            BossTemplate template = (BossTemplate)Activator.CreateInstance(templateType, bounds);
             return template;
         }
 

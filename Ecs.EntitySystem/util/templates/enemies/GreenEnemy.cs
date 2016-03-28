@@ -4,14 +4,15 @@ namespace Ecs.EntitySystem
 {
     public class GreenEnemy : EnemyTemplate
     {
-        public const float FREQUENCY = 1;
+        public const float FREQUENCY = .3f;
 
         public GreenEnemy(Rectangle bounds) : base(bounds)
         {
-            Size = 20;
+            Size = 40;
             Color = Color.Green;
             Speed = 300;
-            GrantedXp = 5;
+            GrantedXp = 10;
+            Health = 100;
         }
     }
 }

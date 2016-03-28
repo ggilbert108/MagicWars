@@ -96,6 +96,8 @@
     <Compile Include="util\intents\StopIntent.cs" />
     <Compile Include="util\QuadTree.cs" />
     <Compile Include="util\templates\enemies\BlueEnemy.cs" />
+    <Compile Include="util\templates\enemies\bosses\BossTemplate.cs" />
+    <Compile Include="util\templates\enemies\bosses\PurpleBoss.cs" />
     <Compile Include="util\templates\enemies\EnemyTemplate.cs" />
     <Compile Include="util\templates\enemies\GreenEnemy.cs" />
     <Compile Include="util\templates\enemies\OrangeEnemy.cs" />

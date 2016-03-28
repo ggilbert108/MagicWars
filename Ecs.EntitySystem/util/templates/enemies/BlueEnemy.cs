@@ -12,6 +12,7 @@ namespace Ecs.EntitySystem
             Color = Color.Blue;
             Speed = 250;
             GrantedXp = 3;
+            Health = 20;
         }
     }
 }

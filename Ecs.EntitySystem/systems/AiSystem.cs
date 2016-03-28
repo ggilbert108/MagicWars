@@ -43,5 +43,19 @@ namespace Ecs.EntitySystem
                 intent.Queue.Add(new AttackIntent(velocity + position));
             }
         }
+
+        public override void DeleteEntity(int id)
+        {
+            foreach (Entity entity in Entities)
+            {
+                var intelligence = entity.GetComponent<Intelligence>();
+                if (intelligence.FollowingId == id)
+                {
+                    intelligence.FollowingId = -1;
+                }
+            }
+
+            base.DeleteEntity(id);
+        }
     }
 }
