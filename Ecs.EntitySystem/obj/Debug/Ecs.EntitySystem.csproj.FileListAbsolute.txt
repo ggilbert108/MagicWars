@@ -1,9 +1,0 @@
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\Ecs.EntitySystem.dll
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\Ecs.EntitySystem.pdb
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\Ecs.Core.dll
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\OpenTK.dll
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\Ecs.Core.pdb
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\bin\Debug\OpenTK.xml
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\obj\Debug\Ecs.EntitySystem.csprojResolveAssemblyReference.cache
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\obj\Debug\Ecs.EntitySystem.dll
-E:\PersonalProjects\MagicWars\Ecs.EntitySystem\obj\Debug\Ecs.EntitySystem.pdb
