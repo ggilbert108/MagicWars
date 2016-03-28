@@ -60,10 +60,24 @@ namespace Ecs.EntitySystem
 
         private void GenerateEnemies()
         {
-            for (int i = 0; i < 100; i++)
+            GenerateBosses(1);
+            GenerateLoneEnemies(100);
+        }
+
+        private void GenerateBosses(int amount)
+        {
+            Rectangle bossBounds = new Rectangle(0, 0, 600, 600);
+            BossTemplate bossTemplate = EnemyFactory.GenerateBoss(bossBounds);
+
+            int bossId = bossTemplate.CreateBoss(manager);
+        }
+
+        private void GenerateLoneEnemies(int amount)
+        {
+            for (int i = 0; i < amount; i++)
             {
-                EnemyTemplate template = EnemyFactory.GenerateEnemy(bounds);
-                template.CreateEntity(manager, heroId);
+                EnemyTemplate template = EnemyFactory.GenerateLoneEnemy(bounds);
+                template.CreateEntity(manager);
             }
         }
 
