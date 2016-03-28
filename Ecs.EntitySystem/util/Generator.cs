@@ -66,8 +66,7 @@ namespace Ecs.EntitySystem
 
         private void GenerateBosses(int amount)
         {
-            Rectangle bossBounds = new Rectangle(0, 0, 600, 600);
-            BossTemplate bossTemplate = EnemyFactory.GenerateBoss(bossBounds);
+            BossTemplate bossTemplate = EnemyFactory.GenerateBoss(bounds);
 
             int bossId = bossTemplate.CreateBoss(manager);
         }

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecs.Core", "MagicWars\Ecs.Core\Ecs.Core.csproj", "{7F5B08DC-BE78-4BC3-8F13-DDC5921014DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecs.Core", "Ecs.Core\Ecs.Core.csproj", "{7F5B08DC-BE78-4BC3-8F13-DDC5921014DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecs.EntitySystem", "MagicWars\Ecs.EntitySystem\Ecs.EntitySystem.csproj", "{F059B3B1-7738-4CAC-99C1-2430D8B8E0E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecs.EntitySystem", "Ecs.EntitySystem\Ecs.EntitySystem.csproj", "{F059B3B1-7738-4CAC-99C1-2430D8B8E0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "MagicWars\Game\Game.csproj", "{A95FB078-C581-4FD3-97E4-8633509A1618}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{A95FB078-C581-4FD3-97E4-8633509A1618}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
