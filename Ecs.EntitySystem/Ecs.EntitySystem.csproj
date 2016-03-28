@@ -92,6 +92,7 @@
     <Compile Include="util\intents\AttackIntent.cs" />
     <Compile Include="util\intents\DeathIntent.cs" />
     <Compile Include="util\intents\IIntent.cs" />
+    <Compile Include="util\intents\LevelUpIntent.cs" />
     <Compile Include="util\intents\MoveIntent.cs" />
     <Compile Include="util\intents\StopIntent.cs" />
     <Compile Include="util\QuadTree.cs" />

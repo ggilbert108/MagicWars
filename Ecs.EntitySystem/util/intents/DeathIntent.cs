@@ -24,7 +24,8 @@ namespace Ecs.EntitySystem
 
                     if (experience.Xp >= experience.ToNextLevel)
                     {
-                        experience.LevelUp();
+                        var intent = killer.GetComponent<Intent>();
+                        intent.Queue.Add(new LevelUpIntent());
                     }
                 }
             }
