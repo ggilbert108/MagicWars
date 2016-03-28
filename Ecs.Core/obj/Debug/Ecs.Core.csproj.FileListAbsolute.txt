@@ -1,5 +1,0 @@
-E:\PersonalProjects\MagicWars\Ecs.Core\obj\Debug\Ecs.Core.csprojResolveAssemblyReference.cache
-E:\PersonalProjects\MagicWars\Ecs.Core\bin\Debug\Ecs.Core.dll
-E:\PersonalProjects\MagicWars\Ecs.Core\bin\Debug\Ecs.Core.pdb
-E:\PersonalProjects\MagicWars\Ecs.Core\obj\Debug\Ecs.Core.dll
-E:\PersonalProjects\MagicWars\Ecs.Core\obj\Debug\Ecs.Core.pdb
