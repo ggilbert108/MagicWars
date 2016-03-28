@@ -38,9 +38,12 @@ namespace Ecs.EntitySystem
                 }
             }
 
-            if (weapon.CurrentTime > weapon.FireRate)
+            if (distance < Intelligence.SIGHT_RANGE)
             {
-                intent.Queue.Add(new AttackIntent(velocity + position));
+                if (weapon.CurrentTime > weapon.FireRate)
+                {
+                    intent.Queue.Add(new AttackIntent(heroPosition));
+                }
             }
         }
 

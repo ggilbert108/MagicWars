@@ -24,9 +24,14 @@ namespace Ecs.EntitySystem
         public override void UpdateAll(float deltaTime)
         {
             context.ClearRect(0, 0, WIDTH, HEIGHT);
+            context.FillStyle = "black";
+            context.FillRect(0, 0, WIDTH, HEIGHT);
+
             context.Translate(-HeroViewport.X, -HeroViewport.Y);
             base.UpdateAll(deltaTime);
             context.Translate(HeroViewport.X, HeroViewport.Y);
+
+            RenderHud();
         }
 
         protected override void Update(Entity entity, float deltaTime)
@@ -45,6 +50,27 @@ namespace Ecs.EntitySystem
             context.Translate(position.X, position.Y);
             context.FillStyle = shape.Color.ColorName;
 
+            if (shape.IsCircle)
+            {
+                RenderCircle(shape);
+            }
+            else
+            {
+                RenderPolygon(shape, angle);
+            }
+
+            if (entity.HasComponent<Health>())
+            {
+                RenderHealth(entity);
+            }
+
+            context.Translate(-position.X, -position.Y);
+        }
+
+        #region Render
+
+        private void RenderPolygon(Shape shape, float angle)
+        {
             context.BeginPath();
 
             MoveTo(shape.GetVertex(0, angle));
@@ -54,11 +80,18 @@ namespace Ecs.EntitySystem
             }
             context.Fill();
             context.ClosePath();
-
-            context.Translate(-position.X, -position.Y);
         }
 
-        #region Render
+        private void RenderCircle(Shape shape)
+        {
+            context.BeginPath();
+
+            context.Arc(0, 0, shape.Radius, 0, Math.PI*2);
+            context.Fill();
+            
+            context.ClosePath();
+        }
+
         private void RenderHealth(Entity entity)
         {
             var health = entity.GetComponent<Health>();
@@ -71,10 +104,10 @@ namespace Ecs.EntitySystem
                 shape.Radius * 2,
                 5);
 
-            //DrawRectangle(bar, Color.Gray);
+            DrawRectangle(bar, Color.Gray);
 
             bar.Width = (int) (bar.Width * ratio);
-            //DrawRectangle(bar, Color.Red);
+            DrawRectangle(bar, Color.Red);
         }
 
         #endregion
@@ -86,11 +119,11 @@ namespace Ecs.EntitySystem
 
         private void RenderHud()
         {
-            //DrawRectangle(new Rectangle(0, HUD_Y, WIDTH, HUD_HEIGHT), Color.Gray);
+            DrawRectangle(new Rectangle(0, HUD_Y, WIDTH, HUD_HEIGHT), Color.Gray);
 
             RenderHealth();
-            RenderExperience();
-            RenderStats();
+            //RenderExperience();
+            //RenderStats();
         }
 
         private void RenderHealth()
@@ -106,9 +139,10 @@ namespace Ecs.EntitySystem
             float healthRatio = 1f * health.Hp / health.MaxHp;
             healthBar.Width = (int)(healthBar.Width * healthRatio);
 
-            //DrawRectangle(healthBar, Color.Red);
+            context.FillStyle = "red";
+            DrawRectangle(healthBar, Color.Red);
             healthBar.Width = width;
-            //OutlineRectangle(healthBar, Color.Black);
+            OutlineRectangle(healthBar, Color.Black);
         }
 
         private void RenderExperience()
@@ -167,6 +201,18 @@ namespace Ecs.EntitySystem
         private void LineTo(Vector2 vector)
         {
             context.LineTo(vector.X, vector.Y);
+        }
+
+        private void DrawRectangle(Rectangle rect, Color color)
+        {
+            context.FillStyle = color.ColorName;
+            context.FillRect(rect.X, rect.Y, rect.Width, rect.Height);
+        }
+
+        private void OutlineRectangle(Rectangle rect, Color color)
+        {
+            context.StrokeStyle = color.ColorName;
+            context.StrokeRect(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         #endregion

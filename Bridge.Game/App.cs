@@ -3,12 +3,15 @@ using Bridge.Html5;
 using Bridge.Lib;
 using Ecs.Core;
 using Ecs.EntitySystem;
+using Performance = Bridge.Lib.Performance;
 
 namespace Bridge.Game
 {
     public class App
     {
-        private static readonly Rectangle Bounds = new Rectangle(0, 0, 5000, 5000);
+        private static readonly Rectangle Bounds = new Rectangle(0, 0, 4000, 4000);
+        private const int FPS = 30;
+        private const int TARGET_MS = 1000/FPS;
 
         private static Manager manager;
         private static Generator generator;
@@ -57,7 +60,7 @@ namespace Bridge.Game
 
         private static void SubscribeEvents()
         {
-            Window.SetInterval(Update, 30);
+            Window.SetInterval(Update, TARGET_MS);
         }
 
         #endregion
@@ -73,10 +76,9 @@ namespace Bridge.Game
 
             if (!gameOver)
             {
-                manager.Update(.03f);
+                manager.Update(1f/FPS);
             }
         }
-
         #endregion
     }
 }

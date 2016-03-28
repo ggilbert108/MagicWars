@@ -4,12 +4,14 @@
     Bridge.define('Bridge.Game.App', {
         statics: {
             bounds: null,
+            FPS: 30,
+            TARGET_MS: 33,
             manager: null,
             generator: null,
             gameOver: false,
             config: {
                 init: function () {
-                    this.bounds = new Bridge.Lib.Rectangle(0, 0, 5000, 5000);
+                    this.bounds = new Bridge.Lib.Rectangle(0, 0, 4000, 4000);
                     Bridge.ready(this.main);
                 }
             },
@@ -43,7 +45,7 @@
                 Bridge.get(Bridge.Game.App).manager.bindHero(Bridge.get(Bridge.Game.App).generator.getHeroId());
             },
             subscribeEvents: function () {
-                window.setInterval(Bridge.get(Bridge.Game.App).update, 30);
+                window.setInterval(Bridge.get(Bridge.Game.App).update, Bridge.get(Bridge.Game.App).TARGET_MS);
             },
             update: function () {
                 if (!Bridge.get(Bridge.Game.App).manager.entityExists(Bridge.get(Bridge.Game.App).generator.getHeroId())) {
@@ -51,7 +53,7 @@
                 }
     
                 if (!Bridge.get(Bridge.Game.App).gameOver) {
-                    Bridge.get(Bridge.Game.App).manager.update(0.03);
+                    Bridge.get(Bridge.Game.App).manager.update(0.0333333351);
                 }
             }
         }

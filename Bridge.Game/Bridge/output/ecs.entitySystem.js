@@ -34,8 +34,10 @@
                 }
             }
     
-            if (weapon.currentTime > weapon.fireRate) {
-                intent.queue.add(new Ecs.EntitySystem.AttackIntent(Bridge.Lib.Vector2.op_Addition(velocity, position)));
+            if (distance < Bridge.get(Ecs.EntitySystem.Intelligence).SIGHT_RANGE) {
+                if (weapon.currentTime > weapon.fireRate) {
+                    intent.queue.add(new Ecs.EntitySystem.AttackIntent(heroPosition));
+                }
             }
         },
         deleteEntity: function (id) {
@@ -651,8 +653,7 @@
             this.generateLoneEnemies(50);
         },
         generateBosses: function (amount) {
-            var bossBounds = new Bridge.Lib.Rectangle(0, 0, 600, 600);
-            var bossTemplate = Bridge.get(Ecs.EntitySystem.EnemyFactory).generateBoss(bossBounds);
+            var bossTemplate = Bridge.get(Ecs.EntitySystem.EnemyFactory).generateBoss(this.bounds);
     
             var bossId = bossTemplate.createBoss(this.manager);
         },
@@ -1060,9 +1061,14 @@
         },
         updateAll: function (deltaTime) {
             this.context.clearRect(0, 0, Bridge.get(Ecs.EntitySystem.RenderSystem).WIDTH, Bridge.get(Ecs.EntitySystem.RenderSystem).HEIGHT);
+            this.context.fillStyle = "black";
+            this.context.fillRect(0, 0, Bridge.get(Ecs.EntitySystem.RenderSystem).WIDTH, Bridge.get(Ecs.EntitySystem.RenderSystem).HEIGHT);
+    
             this.context.translate(-this.getHeroViewport().x, -this.getHeroViewport().y);
             Ecs.Core.System.prototype.updateAll.call(this, deltaTime);
             this.context.translate(this.getHeroViewport().x, this.getHeroViewport().y);
+    
+            this.renderHud();
         },
         update: function (entity, deltaTime) {
             var bounds = Bridge.get(Ecs.EntitySystem.CollisionUtil).getBounds(entity);
@@ -1078,6 +1084,20 @@
             this.context.translate(position.x, position.y);
             this.context.fillStyle = shape.color.getColorName();
     
+            if (shape.getIsCircle()) {
+                this.renderCircle(shape);
+            }
+            else  {
+                this.renderPolygon(shape, angle);
+            }
+    
+            if (entity.hasComponent$1(Ecs.EntitySystem.Health)) {
+                this.renderHealth$1(entity);
+            }
+    
+            this.context.translate(-position.x, -position.y);
+        },
+        renderPolygon: function (shape, angle) {
             this.context.beginPath();
     
             this.moveTo(shape.getVertex(0, angle));
@@ -1086,8 +1106,14 @@
             }
             this.context.fill();
             this.context.closePath();
+        },
+        renderCircle: function (shape) {
+            this.context.beginPath();
     
-            this.context.translate(-position.x, -position.y);
+            this.context.arc(0, 0, shape.radius, 0, Math.PI * 2);
+            this.context.fill();
+    
+            this.context.closePath();
         },
         renderHealth$1: function (entity) {
             var health = entity.getComponent(Ecs.EntitySystem.Health);
@@ -1096,10 +1122,10 @@
     
             var bar = new Bridge.Lib.Rectangle(-shape.radius, -(shape.radius + 5), shape.radius * 2, 5);
     
-            //DrawRectangle(bar, Color.Gray);
+            this.drawRectangle(bar, Bridge.get(Bridge.Lib.Color).getGray());
     
             bar.width = Bridge.Int.trunc((bar.width * ratio));
-            //DrawRectangle(bar, Color.Red);
+            this.drawRectangle(bar, Bridge.get(Bridge.Lib.Color).getRed());
         },
         renderHealth: function () {
             var width = 150;
@@ -1113,16 +1139,17 @@
             var healthRatio = 1.0 * health.hp / health.maxHp;
             healthBar.width = Bridge.Int.trunc((healthBar.width * healthRatio));
     
-            //DrawRectangle(healthBar, Color.Red);
+            this.context.fillStyle = "red";
+            this.drawRectangle(healthBar, Bridge.get(Bridge.Lib.Color).getRed());
             healthBar.width = width;
-            //OutlineRectangle(healthBar, Color.Black);
+            this.outlineRectangle(healthBar, Bridge.get(Bridge.Lib.Color).getBlack());
         },
         renderHud: function () {
-            //DrawRectangle(new Rectangle(0, HUD_Y, WIDTH, HUD_HEIGHT), Color.Gray);
+            this.drawRectangle(new Bridge.Lib.Rectangle(0, Bridge.get(Ecs.EntitySystem.RenderSystem).HUD_Y, Bridge.get(Ecs.EntitySystem.RenderSystem).WIDTH, Bridge.get(Ecs.EntitySystem.RenderSystem).HUD_HEIGHT), Bridge.get(Bridge.Lib.Color).getGray());
     
             this.renderHealth();
-            this.renderExperience();
-            this.renderStats();
+            //RenderExperience();
+            //RenderStats();
         },
         renderExperience: function () {
             var width = 150;
@@ -1162,6 +1189,14 @@
         },
         lineTo: function (vector) {
             this.context.lineTo(vector.x, vector.y);
+        },
+        drawRectangle: function (rect, color) {
+            this.context.fillStyle = color.getColorName();
+            this.context.fillRect(rect.x, rect.y, rect.width, rect.height);
+        },
+        outlineRectangle: function (rect, color) {
+            this.context.strokeStyle = color.getColorName();
+            this.context.strokeRect(rect.x, rect.y, rect.width, rect.height);
         }
     });
     
@@ -1525,8 +1560,8 @@
         constructor: function () {
             Ecs.EntitySystem.WeaponTemplate.prototype.$constructor.call(this);
     
-            this.fireRate = 0.5;
-            this.attack = new Ecs.EntitySystem.ProjectileAttack(300, 400);
+            this.fireRate = 2.0;
+            this.attack = new Ecs.EntitySystem.ProjectileAttack(500, 600);
             this.minDamage = 10;
             this.maxDamage = 15;
         }

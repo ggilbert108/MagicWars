@@ -34,6 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\performance\Performance.cs" />
+    <Compile Include="src\performance\Stopwatch.cs" />
     <Compile Include="src\util\Color.cs" />
     <Compile Include="src\util\HashSet.cs" />
     <Compile Include="src\util\IHashable.cs" />

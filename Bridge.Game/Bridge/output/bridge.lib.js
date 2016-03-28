@@ -60,6 +60,16 @@
         }
     }; });
     
+    Bridge.define('Bridge.Lib.Performance', {
+        statics: {
+            now: function () {
+                var result = eval("performance.now()");
+    
+                return result;
+            }
+        }
+    });
+    
     Bridge.define('Bridge.Lib.Random', {
         next: function (max) {
             return Bridge.Int.trunc(Math.floor(this.nextDouble() * max));
@@ -107,6 +117,23 @@
         },
         contains: function (other) {
             return other.getLeft() >= this.getLeft() && other.getRight() <= this.getRight() && other.getTop() >= this.getTop() && other.getBottom() <= this.getBottom();
+        }
+    });
+    
+    Bridge.define('Bridge.Lib.Stopwatch', {
+        startTime: -1,
+        constructor: function () {
+    
+        },
+        restart: function () {
+            this.startTime = Bridge.get(Bridge.Lib.Performance).now();
+        },
+        getElapsedMilliseconds: function () {
+            if (this.startTime === -1) {
+                throw new Bridge.Exception("The stopwatch has not been started");
+            }
+    
+            return Bridge.get(Bridge.Lib.Performance).now() - this.startTime;
         }
     });
     

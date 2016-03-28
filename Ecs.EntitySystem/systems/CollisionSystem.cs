@@ -9,7 +9,6 @@ namespace Ecs.EntitySystem
         private QuadTree partition;
         private HashSet<string, string> checkedPairs;
 
-
         public CollisionSystem()
         {
             AddRequiredComponent<Shape>();

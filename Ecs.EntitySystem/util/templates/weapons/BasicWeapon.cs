@@ -4,8 +4,8 @@
     {
         public BasicWeapon()
         {
-            FireRate = .5f;
-            Attack = new ProjectileAttack(300, 400);
+            FireRate = 2f;
+            Attack = new ProjectileAttack(500, 600);
             MinDamage = 10;
             MaxDamage = 15;
         }
