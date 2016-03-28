@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Drawing;
+using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
 
 namespace Ecs.EntitySystem
 {
@@ -12,7 +11,7 @@ namespace Ecs.EntitySystem
 
         }
 
-        protected string FollowerClassName;
+        protected EnemyTemplate FollowerTemplate;
         protected int FollowerAmount;
 
         public int CreateBoss(Manager manager)
@@ -20,25 +19,21 @@ namespace Ecs.EntitySystem
             int bossId = CreateEntity(manager);
             Vector2 bossPosition = manager.GetEntityById(bossId).GetComponent<Location>().Position;
 
-            Type followerType = Type.GetType("Ecs.EntitySystem." + FollowerClassName);
-            if (followerType != null)
+            const int radius = 200;
+            const int diameter = 2*radius;
+            Rectangle followerBounds = new Rectangle
+                ((int) (bossPosition.X - radius),
+                (int) (bossPosition.Y - radius),
+                diameter, diameter);
+
+
+            for (int i = 0; i < FollowerAmount; i++)
             {
-                const int radius = 200;
-                const int diameter = 2*radius;
-                Rectangle followerBounds = new Rectangle
-                    ((int) (bossPosition.X - radius),
-                    (int) (bossPosition.Y - radius),
-                    diameter, diameter);
-
-                EnemyTemplate template = (EnemyTemplate) 
-                    Activator.CreateInstance(followerType, followerBounds);
-
-                for (int i = 0; i < FollowerAmount; i++)
-                {
-                    template.FollowingId = bossId;
-                    template.CreateEntity(manager);
-                }
+                FollowerTemplate.Bounds = followerBounds;
+                FollowerTemplate.FollowingId = bossId;
+                FollowerTemplate.CreateEntity(manager);
             }
+            
 
             return bossId;
         }

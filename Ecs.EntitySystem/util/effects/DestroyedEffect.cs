@@ -17,7 +17,7 @@ namespace Ecs.EntitySystem
             if (affected.HasComponent<CollisionEffect>())
             {
                 var effect = affected.GetComponent<CollisionEffect>();
-                if (effect.ContainsEffect<DestroyedEffect>())
+                if (effect.ContainsEffect(typeof(DestroyedEffect).GetClassName()))
                 {
                     return false;
                 }

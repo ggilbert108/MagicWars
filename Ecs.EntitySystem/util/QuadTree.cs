@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
+using Bridge.Lib;
 using Ecs.Core;
 
 namespace Ecs.EntitySystem

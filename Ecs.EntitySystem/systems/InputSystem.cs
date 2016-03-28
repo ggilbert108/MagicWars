@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
+using Bridge.Html5;
+using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
-using OpenTK.Input;
 
 namespace Ecs.EntitySystem
 {
@@ -11,16 +10,16 @@ namespace Ecs.EntitySystem
         private HashSet<Key> keysDown;
         private Vector2 mouseDown;
 
-        public InputSystem(GameWindow game)
+        public InputSystem()
         {
             keysDown = new HashSet<Key>();
             mouseDown = new Vector2(-1, -1);
 
-            game.KeyDown += KeyDown;
-            game.KeyUp += KeyUp;
-            game.MouseDown += MouseDown;
-            game.MouseUp += MouseUp;
-            game.MouseMove += MouseMove;
+            Document.OnKeyDown = KeyDown;
+            Document.OnKeyUp = KeyUp;
+            Document.OnMouseDown = MouseDown;
+            Document.OnMouseMove = MouseMove;
+            Document.OnMouseUp = MouseUp;
 
             AddRequiredComponent<Camera>();
             AddRequiredComponent<Intent>();
@@ -79,30 +78,38 @@ namespace Ecs.EntitySystem
             return mouseDown.X >= 0 && mouseDown.Y >= 0;
         }
 
-        private void KeyDown(object sender, KeyboardKeyEventArgs e)
+        private void KeyDown(KeyboardEvent e)
         {
-            keysDown.Add(e.Key);
+            keysDown.Add(new Key(e.KeyCode));
         }
 
-        private void KeyUp(object sender, KeyboardKeyEventArgs e)
+        private void KeyUp(KeyboardEvent e)
         {
-            keysDown.Remove(e.Key);
+            keysDown.Remove(new Key(e.KeyCode));
         }
 
-        private void MouseDown(object sender, MouseEventArgs e)
+        private void MouseDown(MouseEvent e)
         {
-            mouseDown = new Vector2(e.X, e.Y);
+            mouseDown = new Vector2(e.ClientX, e.ClientY);
         }
 
-        private void MouseUp(object sender, MouseEventArgs e)
+        private void MouseUp(MouseEvent e)
         {
             mouseDown = new Vector2(-1, -1);
         }
 
-        private void MouseMove(object sender, MouseMoveEventArgs e)
+        private void MouseMove(MouseEvent e)
         {
             if(IsMouseDown())
-                mouseDown = new Vector2(e.X, e.Y);
+                mouseDown = new Vector2(e.ClientX, e.ClientY);
+        }
+
+        private Vector2 GetMousePosition(MouseEvent e)
+        {
+            var canvas = Document.GetElementById<CanvasElement>("canvas");
+
+            var clientRect = canvas.GetBoundingClientRect();
+            return new Vector2((float) (e.ClientX - clientRect.Left), (float) (e.ClientY - clientRect.Top));
         }
 
         private Rectangle HeroViewport

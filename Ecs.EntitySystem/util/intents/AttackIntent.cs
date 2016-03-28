@@ -1,5 +1,5 @@
-﻿using Ecs.Core;
-using OpenTK;
+﻿using Bridge.Lib;
+using Ecs.Core;
 
 namespace Ecs.EntitySystem
 {
@@ -7,9 +7,9 @@ namespace Ecs.EntitySystem
     {
         private Vector2 target;
 
-        public AttackIntent(Vector2? target = null)
+        public AttackIntent(Vector2 target = null)
         {
-            this.target = target ?? Vector2.Zero;
+            this.target = (target == null) ? Vector2.Zero : target;
         }
 
         public void DoIntent(Entity entity, Manager manager)

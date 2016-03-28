@@ -13,11 +13,11 @@ namespace Ecs.EntitySystem
             Effects = effects.ToList();
         }
 
-        public bool ContainsEffect<T>() where T : ICollisionEffect
+        public bool ContainsEffect(string collisionName)
         {
             foreach (var effect in Effects)
             {
-                if (effect is T)
+                if (effect.GetClassName() == collisionName)
                     return true;
             }
             return false;

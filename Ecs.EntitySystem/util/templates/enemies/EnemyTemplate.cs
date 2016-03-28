@@ -1,12 +1,11 @@
-﻿using System.Drawing;
+﻿using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
 
 namespace Ecs.EntitySystem
 {
     public abstract class EnemyTemplate
     {
-        protected Rectangle Bounds;
+        public Rectangle Bounds;
 
         protected EnemyTemplate(Rectangle bounds)
         {

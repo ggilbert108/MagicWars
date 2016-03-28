@@ -1,43 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Ecs.Core
 {
     public abstract class Component
     {
-        private readonly List<Type> dependencies;
+        private readonly List<string> dependencies;
 
         protected Component()
         {
-            dependencies = new List<Type>();
+            dependencies = new List<string>();
         }
 
         public virtual void OnCreate(Entity entity) { }
 
         protected void AddDependency<T>() where T : Component
         {
-            dependencies.Add(typeof(T));
+            dependencies.Add(typeof(T).GetClassName());
         }
 
         public bool CanBeAddedToEntity(Entity entity)
         {
-            return dependencies.All(
-                dependency => entity.HasComponent(dependency));
+            return true;
+            //return dependencies.All(
+            //    dependency => entity.HasComponent(dependency));
         }
 
-        public bool HasDependency(Type componentType)
+        public bool HasDependency(string componentType)
         {
             return dependencies.Contains(componentType);
         }
 
         public string GetLackingDependency(Entity entity)
         {
-            Type lacking = dependencies.First(
-                dependency => !entity.HasComponent(dependency));
+            string lacking = dependencies.First(dependency => !entity.HasComponent(dependency));
 
-            return "The component " + GetType().Name +
-                " has a missing dependency: " + lacking.Name;
+            return "The component " + GetClassName() +
+                " has a missing dependency: " + lacking;
         }
     }
 

@@ -18,7 +18,7 @@ namespace Ecs.EntitySystem
             minDamage = template.MinDamage;
             maxDamage = template.MaxDamage;
 
-            CurrentTime = 0;
+            CurrentTime = Util.Rng.NextDouble() * FireRate;
         }
 
         public int GetDamage()

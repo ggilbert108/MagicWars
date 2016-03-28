@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Game.Bridge")]
+[assembly: AssemblyTitle("Bridge.Lib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Game.Bridge")]
+[assembly: AssemblyProduct("Bridge.Lib")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("82f93e7e-90ea-4389-83be-5f23f5f4f0c9")]
+[assembly: Guid("ebb2666f-1622-4b7b-b661-e7246968b5c1")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using Bridge.Lib;
 
 namespace Ecs.EntitySystem
 {
@@ -14,7 +14,7 @@ namespace Ecs.EntitySystem
             GrantedXp = 50;
             Health = 500;
 
-            FollowerClassName = "BlueEnemy";
+            FollowerTemplate = new BlueEnemy(bounds);
             FollowerAmount = 20;
         }
     }

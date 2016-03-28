@@ -1,6 +1,6 @@
 ﻿using System;
+using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
 
 namespace Ecs.EntitySystem
 {
@@ -11,7 +11,8 @@ namespace Ecs.EntitySystem
 
         public Rotation()
         {
-            angle = baseAngle = 0;
+            angle = 0;
+            baseAngle = 0;
             AddDependency<Shape>();
         }
 

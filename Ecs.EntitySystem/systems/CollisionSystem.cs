@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
+using Bridge.Lib;
 using Ecs.Core;
 
 namespace Ecs.EntitySystem
@@ -7,7 +7,7 @@ namespace Ecs.EntitySystem
     public class CollisionSystem : Core.System
     {
         private QuadTree partition;
-        private HashSet<string> checkedPairs;
+        private HashSet<string, string> checkedPairs;
 
 
         public CollisionSystem()
@@ -18,7 +18,7 @@ namespace Ecs.EntitySystem
 
         public override void UpdateAll(float deltaTime)
         {
-            checkedPairs = new HashSet<string>();
+            checkedPairs = new HashSet<string, string>();
             partition = new QuadTree(0, HeroViewport);
             foreach (Entity entity in Entities)
             {

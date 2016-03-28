@@ -37,8 +37,6 @@ namespace Game
             manager = new Manager();
             generator = new Generator(manager);
             game = new GameWindow(800, 600, new GraphicsMode(32, 24, 0, 4));
-
-
         }
 
         private static void AddSystems()

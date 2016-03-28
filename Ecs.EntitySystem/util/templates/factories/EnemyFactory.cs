@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using Bridge;
+using Bridge.Lib;
 
 namespace Ecs.EntitySystem
 {
@@ -9,82 +10,97 @@ namespace Ecs.EntitySystem
     {
         public static EnemyTemplate GenerateLoneEnemy(Rectangle bounds)
         {
-            var allTypes = typeof (EnemyTemplate).Assembly.GetTypes();
+            List<EnemyTemplate> enemies = new List<EnemyTemplate>();
+            List<float> frequencies = new List<float>();
 
-            var subclasses = 
-                from type in allTypes
-                where type.IsSubclassOf(typeof (EnemyTemplate))
-                where type != typeof(BossTemplate)
-                where !type.IsSubclassOf(typeof (BossTemplate))
-                select type;
+            GetSmallEnemies(bounds, enemies, frequencies);
 
-            var templateTypes = subclasses.ToList();
+            Normalize(frequencies);
 
-            var byFrequency = MapByFrequency(templateTypes);
-            float random = (float) Util.Rng.NextDouble();
+            double random = Util.Rng.NextDouble();
 
-            Type templateType = byFrequency[byFrequency.Keys.First()];
-            foreach (float frequency in byFrequency.Keys)
+            EnemyTemplate template = enemies[0];
+            for (int i = 0; i < frequencies.Count; i++)
             {
-                templateType = byFrequency[frequency];
-                if (random < frequency)
+                if (random > frequencies[i])
+                {
+                    template = enemies[i];
                     break;
+                }
             }
 
-            EnemyTemplate template = (EnemyTemplate) Activator.CreateInstance(templateType, bounds);
             return template;
         }
 
         public static BossTemplate GenerateBoss(Rectangle bounds)
         {
-            var allTypes = typeof(EnemyTemplate).Assembly.GetTypes();
+            List<BossTemplate> bosses = new List<BossTemplate>();
+            List<float> frequencies = new List<float>();
 
-            var subclasses =
-                from type in allTypes
-                where type.IsSubclassOf(typeof(BossTemplate))
-                select type;
+            GetBosses(bounds, bosses, frequencies);
 
-            var templateTypes = subclasses.ToList();
+            Normalize(frequencies);
 
-            var byFrequency = MapByFrequency(templateTypes);
-            float random = (float)Util.Rng.NextDouble();
+            double random = Util.Rng.NextDouble();
 
-            Type templateType = byFrequency[byFrequency.Keys.First()];
-            foreach (float frequency in byFrequency.Keys)
+            BossTemplate template = bosses[0];
+            for (int i = 0; i < frequencies.Count; i++)
             {
-                templateType = byFrequency[frequency];
-                if (random < frequency)
+                if (random > frequencies[i])
+                {
+                    template = bosses[i];
                     break;
+                }
             }
 
-            BossTemplate template = (BossTemplate)Activator.CreateInstance(templateType, bounds);
             return template;
         }
 
-        private static SortedDictionary<float, Type> MapByFrequency(List<Type> templateTypes)
+        private static void GetSmallEnemies(Rectangle bounds, List<EnemyTemplate> enemies, List<float> frequencies)
         {
-            var byFrequency = new SortedDictionary<float, Type>();
-
-            float total = 0f; //for normalization
-            foreach (Type templateType in templateTypes)
+            var enemies2 = new List<EnemyTemplate>()
             {
-                float frequency = (float) templateType.GetField("FREQUENCY").GetRawConstantValue();
-                while (byFrequency.ContainsKey(frequency))
-                {
-                    frequency += 0.1f;
-                }
+                new BlueEnemy(bounds), new GreenEnemy(bounds), new OrangeEnemy(bounds)
+            };
 
-                byFrequency[frequency] = templateType;
-                total += frequency;
-            }
-            
-            var normalized = new SortedDictionary<float, Type>();
-            foreach (float frequency in byFrequency.Keys)
+            var frequencies2 = new List<float>()
             {
-                normalized[frequency/total] = byFrequency[frequency];
+                BlueEnemy.FREQUENCY, GreenEnemy.FREQUENCY, OrangeEnemy.FREQUENCY
+            };
+
+            enemies.AddRange(enemies2);
+            frequencies.AddRange(frequencies2);
+        }
+
+        private static void GetBosses(Rectangle bounds, List<BossTemplate> bosses, List<float> frequencies)
+        {
+            var bosses2 = new List<BossTemplate>()
+            {
+                new PurpleBoss(bounds)
+            };
+
+            var frequencies2 = new List<float>()
+            {
+                PurpleBoss.FREQUENCY
+            };
+
+            bosses.AddRange(bosses2);
+            frequencies.AddRange(frequencies2);
+        }
+
+        private static void Normalize(List<float> frequencies)
+        {
+            float total = 0;
+
+            foreach (float f in frequencies)
+            {
+                total += f;
             }
 
-            return normalized;
+            for(int i = 0; i < frequencies.Count; i++)
+            {
+                frequencies[i] /= total;
+            }
         }
     }
 }

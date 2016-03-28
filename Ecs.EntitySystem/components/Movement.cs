@@ -1,5 +1,5 @@
-﻿using Ecs.Core;
-using OpenTK;
+﻿using Bridge.Lib;
+using Ecs.Core;
 
 namespace Ecs.EntitySystem
 {
@@ -10,12 +10,13 @@ namespace Ecs.EntitySystem
         public float MaxSpeed;
         public int MaxForce;
 
-        public Movement(float maxSpeed, int maxForce = -1, Vector2? velocity = null)
+        public Movement(float maxSpeed, int maxForce = -1, Vector2 velocity = null)
         {
             MaxSpeed = maxSpeed;
             MaxForce = maxForce;
             LastMoved = Vector2.Zero;
-            Velocity = velocity ?? Vector2.Zero;
+
+            Velocity = (velocity == null) ? Vector2.Zero : velocity;
         }
 
         public void Move(Vector2 force)

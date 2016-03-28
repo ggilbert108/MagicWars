@@ -6,7 +6,7 @@ namespace Ecs.Core
     public class Manager
     {
         private Dictionary<int, Entity> entities;
-        private Dictionary<Type, System> systems;
+        private Dictionary<string, System> systems;
         private List<int> toDelete;
 
         private int currentId = 0;
@@ -14,7 +14,7 @@ namespace Ecs.Core
         public Manager()
         {
             entities = new Dictionary<int, Entity>();
-            systems = new Dictionary<Type, System>();
+            systems = new Dictionary<string, System>();
             toDelete = new List<int>();
         }
 
@@ -103,13 +103,13 @@ namespace Ecs.Core
 
         public void AddSystem(System system)
         {
-            systems[system.GetType()] = system;
+            systems[system.GetClassName()] = system;
             system.BindManager(this);
         }
 
         public T GetSystem<T>() where T : System
         {
-            return (T) systems[typeof(T)];
+            return (T) systems[typeof(T).GetClassName()];
         }
 
         public void Update(float deltaTime)

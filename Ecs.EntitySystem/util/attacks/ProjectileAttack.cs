@@ -1,6 +1,5 @@
-﻿using System.Drawing;
+﻿using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
 
 namespace Ecs.EntitySystem
 {

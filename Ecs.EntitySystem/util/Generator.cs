@@ -1,6 +1,5 @@
-﻿using System.Drawing;
+﻿using Bridge.Lib;
 using Ecs.Core;
-using OpenTK;
 
 namespace Ecs.EntitySystem
 {
@@ -61,7 +60,7 @@ namespace Ecs.EntitySystem
         private void GenerateEnemies()
         {
             GenerateBosses(1);
-            GenerateLoneEnemies(100);
+            GenerateLoneEnemies(50);
         }
 
         private void GenerateBosses(int amount)

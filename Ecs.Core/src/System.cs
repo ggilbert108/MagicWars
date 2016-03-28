@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bridge.Lib;
 
 namespace Ecs.Core
 {
     public abstract class System
     {
-        private HashSet<int> registeredEntityIds;
-        private List<Type> requiredComponents;
+        private HashSet<int, int> registeredEntityIds;
+        private List<string> requiredComponents;
         protected Manager Manager;
         private int heroId;
 
         protected System()
         {
-            registeredEntityIds = new HashSet<int>();
-            requiredComponents = new List<Type>();
+            registeredEntityIds = new HashSet<int, int>();
+            requiredComponents = new List<string>();
         }
 
         public void BindHero(int heroId)
@@ -39,7 +40,7 @@ namespace Ecs.Core
 
         protected void AddRequiredComponent<T>() where T : Component
         {
-            requiredComponents.Add(typeof(T));
+            requiredComponents.Add(typeof(T).GetClassName());
         }
 
         public void UpdateEntityRegistration(Entity entity)
@@ -71,7 +72,7 @@ namespace Ecs.Core
 
         private bool Matches(Entity entity)
         {
-            foreach (Type required in requiredComponents)
+            foreach (string required in requiredComponents)
             {
                 if (!entity.HasComponent(required))
                     return false;

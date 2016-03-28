@@ -1,5 +1,5 @@
-﻿using Ecs.Core;
-using OpenTK;
+﻿using Bridge.Lib;
+using Ecs.Core;
 
 namespace Ecs.EntitySystem
 {
