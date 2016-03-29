@@ -15,6 +15,7 @@ namespace Bridge.Game
 
         private static Manager manager;
         private static Generator generator;
+        private static CanvasRenderingContext2D context;
 
         private static bool gameOver = false;
 
@@ -33,6 +34,9 @@ namespace Bridge.Game
         {
             manager = new Manager();
             generator = new Generator(manager);
+
+            var canvas = Document.GetElementById<CanvasElement>("canvas");
+            context = canvas.GetContext(CanvasTypes.CanvasContext2DType.CanvasRenderingContext2D);
         }
 
         private static void AddSystems()
@@ -76,9 +80,12 @@ namespace Bridge.Game
 
             if (!gameOver)
             {
+                DrawGrid();
                 manager.Update(1f/FPS);
             }
         }
         #endregion
+
+
     }
 }

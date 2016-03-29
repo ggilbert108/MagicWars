@@ -27,6 +27,8 @@ namespace Ecs.EntitySystem
             context.FillStyle = "black";
             context.FillRect(0, 0, WIDTH, HEIGHT);
 
+            DrawGrid();
+
             context.Translate(-HeroViewport.X, -HeroViewport.Y);
             base.UpdateAll(deltaTime);
             context.Translate(HeroViewport.X, HeroViewport.Y);
@@ -68,6 +70,36 @@ namespace Ecs.EntitySystem
         }
 
         #region Render
+
+        private void DrawGrid()
+        {
+            var viewport = Hero.GetComponent<Camera>().Viewport;
+
+            const int gridSize = 50;
+            const int width = 800;
+            const int height = 600;
+            int xOff = gridSize - (viewport.X % gridSize);
+            int yOff = gridSize - (viewport.Y % gridSize);
+
+            context.StrokeStyle = "blue";
+            for (int x = xOff; x < width; x += gridSize)
+            {
+                context.BeginPath();
+                context.MoveTo(x, 0);
+                context.LineTo(x, height);
+                context.Stroke();
+                context.ClosePath();
+            }
+
+            for (int y = yOff; y < height; y += gridSize)
+            {
+                context.BeginPath();
+                context.MoveTo(0, y);
+                context.LineTo(width, y);
+                context.Stroke();
+                context.ClosePath();
+            }
+        }
 
         private void RenderPolygon(Shape shape, float angle)
         {

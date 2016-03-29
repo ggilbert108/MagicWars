@@ -1064,6 +1064,8 @@
             this.context.fillStyle = "black";
             this.context.fillRect(0, 0, Bridge.get(Ecs.EntitySystem.RenderSystem).WIDTH, Bridge.get(Ecs.EntitySystem.RenderSystem).HEIGHT);
     
+            this.drawGrid();
+    
             this.context.translate(-this.getHeroViewport().x, -this.getHeroViewport().y);
             Ecs.Core.System.prototype.updateAll.call(this, deltaTime);
             this.context.translate(this.getHeroViewport().x, this.getHeroViewport().y);
@@ -1096,6 +1098,32 @@
             }
     
             this.context.translate(-position.x, -position.y);
+        },
+        drawGrid: function () {
+            var viewport = this.getHero().getComponent(Ecs.EntitySystem.Camera).viewport;
+    
+            var gridSize = 50;
+            var width = 800;
+            var height = 600;
+            var xOff = gridSize - (viewport.x % gridSize);
+            var yOff = gridSize - (viewport.y % gridSize);
+    
+            this.context.strokeStyle = "blue";
+            for (var x = xOff; x < width; x += gridSize) {
+                this.context.beginPath();
+                this.context.moveTo(x, 0);
+                this.context.lineTo(x, height);
+                this.context.stroke();
+                this.context.closePath();
+            }
+    
+            for (var y = yOff; y < height; y += gridSize) {
+                this.context.beginPath();
+                this.context.moveTo(0, y);
+                this.context.lineTo(width, y);
+                this.context.stroke();
+                this.context.closePath();
+            }
         },
         renderPolygon: function (shape, angle) {
             this.context.beginPath();
